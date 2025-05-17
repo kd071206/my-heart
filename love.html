@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Only Harshita ❤️</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #ffafbd, #ffc3a0);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      color: #fff;
+      text-align: center;
+      animation: fadeIn 2s ease-in;
+      overflow: hidden;
+    }
+
+    h1, p {
+      margin: 10px;
+    }
+
+    input, button {
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+
+    button {
+      background-color: #ff5e78;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.2s, background-color 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+      background-color: #ff7991;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .response {
+      animation: slideIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideIn {
+      from { transform: translateY(30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .heart {
+      position: fixed;
+      font-size: 24px;
+      animation: floatHearts 6s ease-in forwards;
+      pointer-events: none;
+    }
+
+    @keyframes floatHearts {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-100vh) scale(1.5); opacity: 0; }
+    }
+
+    .trail-heart {
+      position: absolute;
+      pointer-events: none;
+      animation: fadeOut 1.5s ease-out forwards;
+      font-size: 20px;
+    }
+
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: scale(1); }
+      100% { opacity: 0; transform: scale(2); }
+    }
+
+    .theme-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: #fff3;
+      border: 1px solid #fff7;
+      padding: 5px 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      color: #fff;
+      z-index: 10;
+    }
+
+    .dark {
+      background: linear-gradient(to right, #141e30, #243b55);
+    }
+
+    /* Updated Memories button position - bottom right fixed */
+    .memories-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #ffffff88;
+      color: #ff2c6d;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+      z-index: 10;
+    }
+
+    .memories-btn:hover {
+      background: #ffffffcc;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body ontouchmove="heartTrailTouch(event)" onmousemove="heartTrailMouse(event)">
+  <div class="theme-toggle" onclick="toggleTheme()">🌗 Toggle Theme</div>
+
+  <h1>💖 Welcome to My Heart 💖</h1>
+  <p class="typewriter">What is your name?</p>
+  <input type="text" id="nameInput" placeholder="Enter your name..." />
+  <button onclick="checkName()">Submit</button>
+
+  <div id="response" class="hidden response"></div>
+  <audio id="bgMusic" src="https://www.bensound.com/bensound-music/bensound-love.mp3" loop></audio>
+
+  <a href="memories.html"><button class="memories-btn">📸 Memories</button></a>
+
+  <script>
+    function playMusic() {
+      document.getElementById("bgMusic").play().catch(() => {});
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle("dark");
+    }
+
+    const heartTypes = ["❤️", "💖", "💘", "💕", "💓", "💗", "💞", "💝"];
+
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.innerText = heartTypes[Math.floor(Math.random() * heartTypes.length)];
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.top = "100vh";
+      heart.style.fontSize = 20 + Math.random() * 20 + "px";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 7000);
+    }
+    setInterval(createHeart, 500);
+
+    function heartTrail(x, y) {
+      const heart = document.createElement("div");
+      heart.className = "trail-heart";
+      heart.innerText = heartTypes[Math.floor(Math.random() * heartTypes.length)];
+      heart.style.left = x + "px";
+      heart.style.top = y + "px";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 1500);
+    }
+
+    function heartTrailMouse(e) {
+      heartTrail(e.pageX, e.pageY);
+    }
+
+    function heartTrailTouch(e) {
+      for (let i = 0; i < e.touches.length; i++) {
+        heartTrail(e.touches[i].pageX, e.touches[i].pageY);
+      }
+    }
+
+    const compliments = [
+      "You are the sparkle in my eyes ✨",
+      "Your smile melts my heart 💓",
+      "You make every moment magical 🌟",
+      "You're my sunshine on a cloudy day ☀️",
+      "My favorite notification is your smile 📲❤️",
+    ];
+
+    function randomCompliment() {
+      const c = compliments[Math.floor(Math.random() * compliments.length)];
+      alert(c);
+    }
+
+    function checkName() {
+      playMusic();
+      const name = document.getElementById("nameInput").value.trim().toLowerCase();
+      const responseDiv = document.getElementById("response");
+      responseDiv.classList.remove("hidden");
+
+      if (name === "harshita") {
+        responseDiv.innerHTML = `
+          <h2>Welcome Harshita! 💕</h2>
+          <p class="typewriter">I love you! 😍</p>
+          <p>Will you do DNR (Dinner Date)?</p>
+          <button onclick="dnrAnswer('yes')">Yes</button>
+          <button onclick="dnrAnswer('no')">No</button>
+          <br><br><button onclick="randomCompliment()">💬 Give Me a Compliment</button>
+        `;
+      } else {
+        responseDiv.innerHTML = `
+          <h2>Sorry 😢</h2>
+          <p>I am already taken by Harshita 💖</p>
+          <p>No other database found in the heart 💾❤️</p>
+          <p>Only Harshita is present 💘</p>
+        `;
+      }
+    }
+
+    function dnrAnswer(answer) {
+      const responseDiv = document.getElementById("response");
+      if (answer === "yes") {
+        responseDiv.innerHTML += `<p>*Click!* 📸 You will get a photo! Good girl 💕 I love you!</p>`;
+        confetti();
+      } else {
+        responseDiv.innerHTML += `<p>No photo today 😔</p>`;
+      }
+    }
+
+    function confetti() {
+      for (let i = 0; i < 50; i++) {
+        const emoji = document.createElement("div");
+        emoji.style.position = "fixed";
+        emoji.style.left = Math.random() * 100 + "vw";
+        emoji.style.top = "-30px";
+        emoji.style.fontSize = "24px";
+        emoji.innerText = ["💃", "🕺", "💖", "🎉"][Math.floor(Math.random() * 4)];
+        emoji.style.animation = "floatHearts 5s ease-in infinite";
+        document.body.appendChild(emoji);
+        setTimeout(() => emoji.remove(), 5000);
+      }
+    }
+  </script>
+</body>
+</html>
